@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'knewave';
+  src: url('/fonts/knewave.woff2') format('woff2'),
+       url('/fonts/knewave.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('/fonts/Ubuntu.woff2') format('woff2'),
+       url('/fonts/Ubuntu.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
