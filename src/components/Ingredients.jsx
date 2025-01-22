@@ -1,41 +1,75 @@
 import {
   useState
-} from 'react'
+} from 'react';
+import image from '../assets/image.png';
+import Recipe from './Recipe';
+import generateRecipe from './API.jsx';
 
-import image from '../assets/image.png'
 
 const Ingredients = ({
   ingredients
 }) => {
-  console.log(ingredients)
   const IngredientList = ingredients.map((item, index) => <li key={index}>{item}</li>);
 
-  const img = (
+
+  const [recipe,
+    setRecipe] = useState("");
+  const [loading,
+    setLoading] = useState(false);
+
+  const fetchRecipe = async () => {
+    setLoading(true);
+    try {
+      const result = await generateRecipe(ingredients);
+      setRecipe(result);
+    } catch (error) {
+      console.error('Failed to fetch recipe:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const emptyIngredientsMessage = (
     <div className="flex flex-col justify-center items-center">
-      <img src={image} alt="empty Ingredients" className="w-[300px] h-[250px] mt-24" />
-    <marquee scrollamount="5" className="text-center">
-      Add atleast 3 ingredients to get a recipe...
-    </marquee>
+      <img src={image} alt="Empty Ingredients" className="w-[300px] h-[250px] mt-24" />
+    <div className="marquee">
+      Add at least 3 ingredients to get a recipe...
+    </div>
   </div>
-)
+);
+
 return (
   <>
-    {ingredients.length === 0 ? img: <div className="px-3">
-      <h1 className="font-extrabold text-2xl mt-5">INGREDIENTS: </h1>
-      <ul className="list-disc pl-5 space-y-2 mt-2 text-lg">
-        {IngredientList}
-      </ul>
-      {ingredients.length >= 3 ?
-      <div className="bg-gray-300 rounded px-4 py-3 flex justify-between items-center mt-28">
-        <p className="w-1/2">
-          Looks like you have enough ingredients, are you ready to get recipe?
-        </p>
-        <button className="rounded bg-amber-500 text-white p-3 w-1/3">Get Recipe</button>
-      </div>: null }
+    {loading && <div className="absolute top-0 bg-white flex justify-center items-center w-[100vw] h-[100vh] opacity-40">
+      <span className="spinner"></span>
     </div>
     }
+    {ingredients.length === 0 ? (
+      emptyIngredientsMessage
+    ): (
+      <div className="px-3">
+        <h1 className="font-extrabold text-2xl mt-5">INGREDIENTS:</h1>
+        <ul className="list-disc pl-5 space-y-2 mt-2 text-lg">
+          {IngredientList}
+        </ul>
+        {ingredients.length >= 3 && (
+          <div className="bg-gray-300 rounded px-4 py-3 flex justify-between items-center mt-28">
+            <p className="w-1/2">
+              Looks like you have enough ingredients. Are you ready to get a recipe?
+            </p>
+            <button
+              className="rounded bg-amber-500 text-white p-3 w-1/3"
+              onClick={fetchRecipe}
+              disabled={loading}
+              > Get Recipe
+            </button>
+          </div>
+        )}
+        {recipe && <Recipe recipes={recipe} />}
+      </div>
+    )}
   </>
-)
-}
+);
+};
 
-export default Ingredients
+export default Ingredients;

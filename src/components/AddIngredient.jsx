@@ -1,14 +1,17 @@
-import { useState } from "react";
+import {
+  useState
+} from "react";
 import Ingredients from "./Ingredients";
 
 const AddIngredient = () => {
-  const [ingredient, setIngredient] = useState(["Chicken", "Potato", "Rice", "Coconut"]);
-  const [newIngredient, setNewIngredient] = useState(""); 
-  
+  const [ingredient,
+    setIngredient] = useState(["Chicken", "Potato", "Rice", "Coconut"]);
+  const [newIngredient,
+    setNewIngredient] = useState("");
+
   const handleInputChange = (event) => {
     setNewIngredient(event.target.value);
   };
-
 
   const addIngredient = (event) => {
     event.preventDefault();
@@ -22,29 +25,31 @@ const AddIngredient = () => {
   };
 
   return (
-    <div className="px-4 py-5">
-      <form
-        className="flex w-full justify-between items-center max-w-[500px] gap-3"
-        onSubmit={addIngredient}
-      >
-        <input
+    <>
+      <div className="p-4 flex justify-center items-center w-screen">
+        <form
+          className="flex w-full justify-between items-center max-w-[500px] gap-3"
+          onSubmit={addIngredient}
+          >
+          <input
           type="text"
           name="ingredient"
           placeholder="eg: water leaf...."
           value={newIngredient}
           onChange={handleInputChange}
-          className="border-2 border-black rounded p-2 flex-grow focus:outline-none"
-        />
+          className="border-2 border-black rounded p-2 flex-grow focus:outline-none w-1/2"
+          />
         <button
           type="submit"
-          className="bg-black text-white rounded p-2 flex-grow"
-        >
+          className="bg-black text-white rounded p-2 flex-grow w-1/3"
+          >
           + Add Ingredient
         </button>
       </form>
-      <Ingredients ingredients={ingredient} />
     </div>
-  );
+    <Ingredients ingredients={ingredient} />
+  </>
+);
 };
 
 export default AddIngredient;
