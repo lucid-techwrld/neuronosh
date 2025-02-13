@@ -8,7 +8,7 @@ const app = express();
 const hf = new HfInference(process.env.HF_ACCESS_TOKEN);
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // Change this when deploying
+  origin: 'https://chefclaudeai.onrender.com', // Change this when deploying
   methods: ['POST'],
   allowedHeaders: ['Content-Type'],
 };
