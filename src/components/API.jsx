@@ -1,6 +1,6 @@
 const generateRecipe = async (ingredients) => {
   try {
-    const response = await fetch('http://localhost:5000/generate-recipe', {
+    const response = await fetch('https://chefclaudeai.onrender.com/generate-recipe', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
