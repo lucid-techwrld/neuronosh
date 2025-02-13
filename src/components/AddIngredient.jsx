@@ -5,7 +5,7 @@ import Ingredients from "./Ingredients";
 
 const AddIngredient = () => {
   const [ingredient,
-    setIngredient] = useState(["Chicken", "Potato", "Rice", "Coconut"]);
+    setIngredient] = useState([]);
   const [newIngredient,
     setNewIngredient] = useState("");
 

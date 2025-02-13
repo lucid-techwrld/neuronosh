@@ -32,9 +32,9 @@ const Ingredients = ({
   const emptyIngredientsMessage = (
     <div className="flex flex-col justify-center items-center">
       <img src={image} alt="Empty Ingredients" className="w-[300px] h-[250px] mt-24" />
-    <div className="marquee">
+    <marquee scrollamount="5">
       Add at least 3 ingredients to get a recipe...
-    </div>
+    </marquee>
   </div>
 );
 
