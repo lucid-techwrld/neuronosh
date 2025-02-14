@@ -21,9 +21,11 @@ const Ingredients = ({
     setLoading(true);
     try {
       const result = await generateRecipe(ingredients);
+      //console.log(result)
       setRecipe(result);
     } catch (error) {
-      console.error('Failed to fetch recipe:', error);
+      //console.error('Failed to fetch recipe:', error);
+      throw error
     } finally {
       setLoading(false);
     }

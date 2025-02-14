@@ -8,16 +8,20 @@ const app = express();
 const hf = new HfInference(process.env.HF_ACCESS_TOKEN);
 
 const corsOptions = {
-  origin: ['https://chefclaudeai.onrender.com', 'http://localhost:5173'], // Change this when deploying
+  origin: 'https://chefclaudeai.onrender.com',
   methods: ['POST'],
   allowedHeaders: ['Content-Type'],
 };
 app.use(cors(corsOptions));
 app.use(express.json());
 
-const SYSTEM_PROMPT = `You are an assistant that suggests recipes based on ingredients provided by the user.`;
+const emph = "```markdown";
+const SYSTEM_PROMPT = `You are an assistant that suggests recipes based on ingredients provided by the user. 
+You must format your response in Markdown but do NOT wrap the response in triple backticks or use "${emph}". Just return the formatted Markdown content directly.`;
+
 
 app.post('/generate-recipe', async (req, res) => {
+  //console.log('incoming request: ', req.body)
   const ingredients = req.body;
 
   if (!Array.isArray(ingredients) || ingredients.length === 0) {
@@ -26,18 +30,18 @@ app.post('/generate-recipe', async (req, res) => {
 
   try {
     const response = await hf.chatCompletion({
-      model: 'mistralai/Mistral-Nemo-Instruct-2407',
+      model: 'mistralai/Mistral-7B-Instruct-v0.2',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: `I have ${ingredients.join(', ')}. Give me a recipe!` },
       ],
-      max_tokens: 1024,
+      max_tokens:1024,
     });
-    console.log(response)
-    res.json({ recipe: response.choices[0].message.content });
+    
+res.json({ recipe: response.choices[0].message.content });
   } catch (err) {
     console.error('Error:', err.message);
-    res.status(500).json({ error: 'Failed to generate recipe' });
+    res.status(500).json({ error: 'Failed to generate recipe from backend' });
   }
 });
 
