@@ -40,7 +40,7 @@ app.post('/generate-recipe', async (req, res) => {
     
 res.json({ recipe: response.choices[0].message.content });
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error('Errorr:', err.message);
     res.status(500).json({ error: 'Failed to generate recipe from backend' });
   }
 });
