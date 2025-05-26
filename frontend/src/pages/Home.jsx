@@ -1,0 +1,123 @@
+import React, { useEffect, useState } from "react";
+import bg from "../assets/bg.jpg";
+import { PlusCircle } from "lucide-react";
+import IngredientList from "../components/IngredientList";
+import Recommend from "../components/Recommend";
+
+const Home = () => {
+  const [ingredients, setIngredients] = useState([]);
+
+  const handleIngredients = (event) => {
+    event.preventDefault();
+    const ingredient = event.target[0].value;
+    console.log("ingredient", ingredient);
+    if (!ingredient) return;
+
+    if (ingredients.includes(ingredient)) return;
+
+    setIngredients((prev) => [...prev, ingredient]);
+    event.target.reset();
+  };
+
+  const removeIngredient = (item) => {
+    console.log(item);
+    const newIngredient = ingredients.filter((ingredient) => {
+      return ingredient !== item;
+    });
+    console.log(newIngredient);
+    setIngredients(newIngredient);
+  };
+
+  useEffect(() => {
+    console.log("ingredient array", ingredients);
+  }, [ingredients]);
+
+  return (
+    <div className="relative h-screen w-full">
+      {/* Background Image */}
+      <img
+        src={bg}
+        alt="bg"
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      />
+
+      {/* Foreground Content */}
+      <div className="absolute inset-0 flex flex-col items-center z-10 mt-5 lg:mt-10 md:mt-10 bg-white/60 backdrop-blur-sm px-3">
+        <div className="w-full lg:w-[60%] md:w-[60%] flex flex-col items-center">
+          <p className="text-center text-xl">
+            <span className="font-bold text-2xl text-orange-400">
+              NeuroNosh
+            </span>{" "}
+            is your intelligent kitchen companion that turns your leftover
+            ingredients into delicious, chef-inspired meals — instantly. Just
+            tell NeuroNosh what’s in your fridge or pantry, and it uses AI to
+            generate unique recipes tailored to what you already have. Whether
+            you’re trying to save time, reduce food waste, or explore creative
+            new dishes, NeuroNosh helps you cook smarter, not harder.
+          </p>
+
+          {/* Ingredient Form */}
+          <form
+            onSubmit={(e) => handleIngredients(e)}
+            className="w-full flex flex-col justify-center items-center mt-5"
+          >
+            <div className="w-full relative flex justify-center items-center mt-10">
+              <input
+                type="text"
+                placeholder="add ingredient..."
+                className="w-full bg-orange-400 rounded-2xl pl-5 pr-12 py-5 outline-none placeholder:text-white"
+              />
+              <button type="submit" className="absolute right-5">
+                <PlusCircle className="w-7 h-7 text-white hover:text-gray-200" />
+              </button>
+            </div>
+
+            {/* Ingredient List */}
+            {ingredients.length > 0 && (
+              <IngredientList
+                ingredients={ingredients}
+                removeIngredient={removeIngredient}
+              />
+            )}
+            <button
+              type="submit"
+              className="w-[60%] mt-5 rounded-full px-7 py-5 bg-[linear-gradient(270deg,_#fdba74,_#fde68a,_#fca5a5)] bg-[length:400%_400%] animate-gradient-border font-semibold text-white hover:text-black"
+            >
+              Generate Recipe
+            </button>
+          </form>
+
+          <p className="italic">...no need to shop for extra items</p>
+        </div>
+
+        {/* Recommended Recipes */}
+        <div className="mt-20 flex flex-col w-full justify-start lg:px-10 md:px-7">
+          <h2 className="font-bold text-xl">Recommended Recipes</h2>
+          <Recommend recommend={recommend} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
+
+const recommend = [
+  {
+    name: "Crispy Garden Toss",
+    desc: "A refreshing medley of roasted and raw vegetables tossed in a tangy lemon-herb vinaigrette. Perfect for using up assorted greens, crunchy bits, and last-chance produce from the fridge.",
+  },
+  {
+    name: "One-Pot Pantry Pasta",
+    desc: "A cozy, customizable pasta dish made entirely from pantry staples like canned tomatoes, garlic, olive oil, and whatever protein or veggies you have on hand. Minimal dishes, maximum flavor.",
+  },
+
+  {
+    name: "Wrap Hack Supreme",
+    desc: "A fully loaded flatbread wrap stuffed with leftovers, quick-cooked fillings, and a drizzle of homemade sauce. Fold it, toast it, and enjoy a handheld meal that’s fast and flexible.",
+  },
+  {
+    name: "Veggie Fusion Skillet",
+    desc: "A hearty, one-pan vegetarian dish that brings together sautéed seasonal vegetables, tender legumes, and warm spices. Perfectly adaptable to whatever's in your crisper drawer — comfort food with a healthy, plant-based twist.",
+  },
+];
