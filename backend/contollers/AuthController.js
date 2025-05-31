@@ -5,18 +5,24 @@ const { generateJwtToken, setAuthCookie } = require("../helper/token");
 const bcrypt = require("bcryptjs");
 const SendOTP = require("../Emails/SentOTP");
 const sendSMS = require("../Emails/SendSMS");
+const sendMail = require("../Emails/SendEmail");
 
+// create account with email
 const email_user_auth = async (req, res) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
 
-  if (!email || !email.includes("@")) {
-    return res.status(400).json({ message: "Invalid email address." });
+  if (!email || !email.includes("@") || !password) {
+    return res.status(400).json({ message: "All feilds are required" });
   }
 
   try {
     const user = await User.findOne({ email: email.toLowerCase() });
     if (user) {
       if (user.isVerified) {
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          return res.status(400).json({ message: "Invalid email or password" });
+        }
         const token = generateJwtToken({ userId: user._id, email: user.email });
         setAuthCookie(res, token);
         return res.json({ message: "Logged in successfully." });
@@ -33,12 +39,15 @@ const email_user_auth = async (req, res) => {
       }
     } else {
       const { otp, hashed, expiresAt } = await createOTP();
+      const hashedPasword = await bcrypt.hash(password, 10);
 
       const newUser = new User({
         email: email.toLowerCase(),
+        password: hashedPasword,
         provider: "email",
         otp: hashed,
         otpExpiresAt: expiresAt,
+        profile: `https://ui-avatars.com/api/?name=${email}&background=random`,
       });
 
       await newUser.save();
@@ -53,6 +62,7 @@ const email_user_auth = async (req, res) => {
   }
 };
 
+// create account with phone number
 const phone_user_auth = async (req, res) => {
   const normalizePhone = (phone) => phone.replace(/\D/g, "");
   let { phone } = req.body;
@@ -102,6 +112,7 @@ const phone_user_auth = async (req, res) => {
   }
 };
 
+// verifyOTP
 const verifyOtp = async (req, res) => {
   const { email, phone, otp } = req.body;
 
@@ -147,6 +158,7 @@ const verifyOtp = async (req, res) => {
 
     const token = generateJwtToken(tokenPayload);
     setAuthCookie(res, token);
+    await sendMail(user.email);
 
     return res.json({ message: "OTP verified successfully." });
   } catch (error) {
@@ -155,15 +167,17 @@ const verifyOtp = async (req, res) => {
   }
 };
 
-const googleAuth = (req, res) => {
+// create account with google
+const googleAuth = async (req, res) => {
   try {
     const tokenPayload = {
       userId: req.user._id,
       email: req.user.email,
     };
     const token = generateJwtToken(tokenPayload);
-
     setAuthCookie(res, token);
+    await sendMail(req.user.email);
+
     res.redirect("http://localhost:5173");
   } catch (error) {
     console.log(error);
@@ -174,4 +188,52 @@ const googleAuth = (req, res) => {
   }
 };
 
-module.exports = { email_user_auth, phone_user_auth, googleAuth, verifyOtp };
+// get curerent user profile
+const getUserProfile = async (req, res) => {
+  const userId = req.user?.userId;
+
+  if (!userId) {
+    return res.status(400).json({ mesage: "Please login and try again" });
+  }
+  try {
+    const user = await User.findById(userId).select("-password");
+    if (!user) return res.status(404).json({ message: "User does not exits" });
+    res.status(200).json({
+      success: true,
+      message: "User fetched succesfully",
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong please try agian later",
+    });
+  }
+};
+
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    });
+
+    res.status(200).json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong please try agian later",
+    });
+  }
+};
+module.exports = {
+  email_user_auth,
+  phone_user_auth,
+  googleAuth,
+  verifyOtp,
+  getUserProfile,
+  logout,
+};

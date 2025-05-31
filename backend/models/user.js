@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: function () {
-      return this.provider !== "phone";
-    },
-    unique: true,
     lowercase: true,
     trim: true,
+    unique: true,
     sparse: true,
+  },
+  password: {
+    type: String,
   },
   provider: {
     type: String,
@@ -18,9 +18,6 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    required: function () {
-      return this.provider === "phone";
-    },
     unique: true,
     sparse: true,
   },

@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import RecipePage from "./pages/RecipePage";
 import SiginPage from "./pages/SiginPage";
 import SavedPage from "./pages/SavedPage";
+import OTPpage from "./pages/OTPpage";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/saved" element={<SavedPage />} />
         </Route>
         <Route path="/auth" element={<SiginPage />} />
+        <Route path="/verify" element={<OTPpage />} />
       </Routes>
     </>
   );

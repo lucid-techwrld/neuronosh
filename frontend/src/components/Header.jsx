@@ -1,4 +1,5 @@
 import logo from "../assets/neuronosh logo.png";
+import profile from "../assets/undraw_male-avatar_zkzx.svg";
 import { HeartIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -7,7 +8,7 @@ import { useUser } from "./UserContext";
 const Header = () => {
   const navigate = useNavigate();
   const [menu, setMenu] = useState(false);
-  const { user } = useUser();
+  const { isLoggedIn, logout, user } = useUser();
 
   return (
     <>
@@ -34,14 +35,16 @@ const Header = () => {
             </button>
             <span className="text-[0.7em]">Saved</span>
           </div>
-          <img
-            src={logo}
-            alt="neuronoshicon"
-            className="w-[50px] h-[50px] rounded-full border-2 border-orange-500"
-            onClick={() => {
-              setMenu(!menu);
-            }}
-          />
+          <div className="w-[50px] h-[50px] rounded-full p-[0.1rem] border-2 border-gray-400">
+            <img
+              src={user?.profile || profile}
+              alt="neuronoshicon"
+              className="w-full h-full object-cover rounded-full"
+              onClick={() => {
+                setMenu(!menu);
+              }}
+            />
+          </div>
           <div
             className={`absolute top-16 right-4 bg-white shadow-lg rounded-lg p-4 transition-transform ${
               menu ? "translate-x-0" : "translate-x-full"
@@ -51,7 +54,7 @@ const Header = () => {
               <li
                 className="cursor-pointer hover:text-orange-500"
                 onClick={() => {
-                  navigate("/saves");
+                  navigate("/saved");
                 }}
               >
                 Saves
@@ -59,10 +62,10 @@ const Header = () => {
               <li
                 className="cursor-pointer hover:text-orange-500"
                 onClick={() => {
-                  user ? navigate("/logout") : navigate("/auth");
+                  isLoggedIn ? logout() : navigate("/auth");
                 }}
               >
-                {user ? "Logout" : "Login"}
+                {isLoggedIn ? "Logout" : "Login"}
               </li>
             </ul>
           </div>

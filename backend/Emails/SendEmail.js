@@ -1,6 +1,6 @@
 const transporter = require("../utils/nodemailer");
 
-const sendMail = async (email, otp) => {
+const sendMail = async (email) => {
   try {
     const mailOptions = {
       from: `"NeuroNosh" <${process.env.EMAIL_FROM}>`,
@@ -10,10 +10,10 @@ const sendMail = async (email, otp) => {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("OTP sent successfully to:", email);
+    console.log("Account Created Succesfully", email);
   } catch (error) {
-    console.error("Error sending OTP:", error);
-    throw new Error("Failed to send OTP");
+    console.error("Error Creating Account:", error);
+    throw new Error("Failed to verify account");
   }
 };
 

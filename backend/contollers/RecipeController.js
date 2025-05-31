@@ -1,3 +1,4 @@
+const User = require("../models/user");
 const SYSTEM_PROMPT = require("../prompt");
 const axios = require("axios");
 
@@ -55,12 +56,73 @@ const generateRecipe = async (req, res) => {
     }
 
     res.json({ success: true, recipe: parsedRecipe });
-  } catch (err) {
-    console.error("Error generating recipe:", err.message);
+  } catch (error) {
+    console.error("Error generating recipe:", error);
     res.status(500).json({ error: "Failed to generate recipe." });
+  }
+};
+
+const saveRecipe = async (req, res) => {
+  const { recipe } = req.body;
+  const userId = req.user?.userId;
+  if (!recipe) {
+    return res.status(400).json({ message: "Please provide a recipe" });
+  }
+
+  if (!userId) {
+    return res.status(401).json({ message: "Please login to save recipe" });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const alreadySaved = user.saves.find((r) => r.name === recipe.name);
+    if (alreadySaved) {
+      return res
+        .status(400)
+        .json({ message: "Recipe is already saved by the user" });
+    }
+
+    user.saves.push(recipe);
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Recipe saved successfully",
+    });
+  } catch (error) {
+    console.error("Error saving recipe:", error);
+    res.status(500).json({ error: "Error saving recipe, please try again" });
+  }
+};
+
+const getSavedRecipe = async (req, res) => {
+  const userId = req.user?.userId;
+  if (!userId) {
+    return res.status(401).json({ message: "Please login to save recipe" });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const savedRecipe = user.saves;
+
+    res.status(200).json({
+      success: true,
+      message: "Recipe saved successfully",
+      savedRecipe,
+    });
+  } catch (error) {
+    console.error("Error fetching saved recipes:", error);
+    res.status(500).json({ error: "Error fetching recipe, please try again" });
   }
 };
 
 module.exports = {
   generateRecipe,
+  saveRecipe,
+  getSavedRecipe,
 };

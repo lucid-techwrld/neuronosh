@@ -1,7 +1,6 @@
 import { XCircle } from "lucide-react";
 
 const IngredientList = ({ ingredients, removeIngredient }) => {
-  console.log("ingredient list", ingredients);
   return (
     <div className="mt-5 flex flex-wrap gap-2 w-full justify-center">
       {ingredients.map((item, index) => (

@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 function generateJwtToken(payload) {
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
 }
 
 function setAuthCookie(res, token) {
@@ -9,7 +9,7 @@ function setAuthCookie(res, token) {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-    maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+    maxAge: 1 * 24 * 60 * 60 * 1000,
   });
 }
 

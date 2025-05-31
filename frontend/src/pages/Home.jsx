@@ -1,16 +1,37 @@
 import React, { useEffect, useState } from "react";
 import bg from "../assets/bg.jpg";
-import { PlusCircle } from "lucide-react";
+import { Loader2Icon, PlusCircle } from "lucide-react";
 import IngredientList from "../components/IngredientList";
 import Recommend from "../components/Recommend";
+import { useRecipe } from "../components/RecipeContext";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [ingredients, setIngredients] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { generateRecipe } = useRecipe();
+  const navigate = useNavigate();
+
+  const handleGenerateRecipe = async () => {
+    try {
+      setLoading(true);
+      if (ingredients <= 0) return;
+      const recipe = await generateRecipe({ ingredients });
+      if (recipe.name) {
+        navigate(`/recipe/${recipe?.name}`);
+      } else {
+        console.log("Recipe is empty ");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleIngredients = (event) => {
     event.preventDefault();
     const ingredient = event.target[0].value;
-    console.log("ingredient", ingredient);
     if (!ingredient) return;
 
     if (ingredients.includes(ingredient)) return;
@@ -24,13 +45,13 @@ const Home = () => {
     const newIngredient = ingredients.filter((ingredient) => {
       return ingredient !== item;
     });
-    console.log(newIngredient);
+    //console.log(newIngredient);
     setIngredients(newIngredient);
   };
 
-  useEffect(() => {
-    console.log("ingredient array", ingredients);
-  }, [ingredients]);
+  // useEffect(() => {
+  //   console.log("ingredient array", ingredients);
+  // }, [ingredients]);
 
   return (
     <div className="relative h-screen w-full">
@@ -80,10 +101,14 @@ const Home = () => {
               />
             )}
             <button
-              type="submit"
-              className="w-[60%] mt-5 rounded-full px-7 py-5 bg-[linear-gradient(270deg,_#fdba74,_#fde68a,_#fca5a5)] bg-[length:400%_400%] animate-gradient-border font-semibold text-white hover:text-black"
+              onClick={() => handleGenerateRecipe()}
+              className="w-[60%] mt-5 rounded-full px-7 py-5 bg-[linear-gradient(270deg,_#fdba74,_#fde68a,_#fca5a5)] bg-[length:400%_400%] animate-gradient-border font-semibold text-white hover:text-black flex justify-center items-center"
             >
-              Generate Recipe
+              {loading ? (
+                <Loader2Icon className="w-8 h-8 animate-spin" />
+              ) : (
+                <span>Generate Recipe</span>
+              )}
             </button>
           </form>
 

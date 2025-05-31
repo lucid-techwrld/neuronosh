@@ -27,7 +27,7 @@ const SavedCard = ({ recipe }) => {
               <Delete className="w-full h-full" />
             </button>
           </div>
-          <p className="text-gray-600 hover:text-red-600">{item.desc}</p>
+          <p className="text-gray-600 hover:text-red-600">{item.description}</p>
         </div>
       ))}
     </div>

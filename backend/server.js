@@ -11,6 +11,7 @@ const connectDB = require("./config/mongoDB");
 
 const corsOptions = {
   origin: ["http://localhost:5173"],
+  credentials: true,
 };
 
 app.use(passport.initialize());
@@ -18,7 +19,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/api/recipes", RecipeRoute);
+app.use("/api/recipe", RecipeRoute);
 app.use("/api/auth", AuthRoute);
 
 connectDB();

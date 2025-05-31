@@ -75,7 +75,8 @@ const recipes = [
   },
   {
     name: "Veggie Fusion Skillet",
-    desc: "A hearty, one-pan vegetarian dish that brings together sautéed seasonal vegetables, tender legumes, and warm spices. Perfectly adaptable to whatever's in your crisper drawer — comfort food with a healthy, plant-based twist.",
+    description:
+      "A hearty, one-pan vegetarian dish that brings together sautéed seasonal vegetables, tender legumes, and warm spices. Perfectly adaptable to whatever's in your crisper drawer — comfort food with a healthy, plant-based twist.",
     ingredients: [
       "1 tbsp olive oil",
       "1/2 onion, chopped",
