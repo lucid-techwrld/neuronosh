@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import verifyOTP from "../components/verifyOTP";
 
 const OTPpage = () => {
   const [otp, setOTP] = useState(Array(6).fill(""));
@@ -18,7 +19,6 @@ const OTPpage = () => {
     newOtp[index] = value;
     setOTP(newOtp);
 
-    console.log(newOtp);
     if (value && index < otp.length - 1) {
       inputsRef.current[index + 1].focus();
     }
@@ -30,15 +30,20 @@ const OTPpage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const fullOtp = otp.join("");
-    console.log("OTP entered:", email, fullOtp);
+    try {
+      const res = await verifyOTP(fullOtp, email);
+      console.log("Response from OTP verification:", res);
+      if (res?.success) {
+        console.log("OTP verified successfully");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  useEffect(() => {
-    console.log("otp", otp);
-  });
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -48,8 +53,8 @@ const OTPpage = () => {
       >
         <h1 className="font-bold text-2xl">Verify Acount</h1>
         <p className="text-center">
-          OTP has been sent to da********999@gamil.com. <br /> Fill the OTP
-          Below
+          {`OTP has been sent to ${email}. `} <br />
+          Fill the OTP Below
         </p>
         <div className="flex gap-2">
           {otp.map((value, index) => (

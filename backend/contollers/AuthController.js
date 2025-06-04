@@ -25,7 +25,10 @@ const email_user_auth = async (req, res) => {
         }
         const token = generateJwtToken({ userId: user._id, email: user.email });
         setAuthCookie(res, token);
-        return res.json({ message: "Logged in successfully." });
+        return res.json({
+          message: "Logged in successfully.",
+          isVerified: true,
+        });
       } else {
         const { otp, hashed, expiresAt } = await createOTP();
 
@@ -161,7 +164,7 @@ const verifyOtp = async (req, res) => {
     setAuthCookie(res, token);
     await sendMail(user.email);
 
-    return res.json({ message: "OTP verified successfully." });
+    return res.json({ success: true, message: "OTP verified successfully." });
   } catch (error) {
     console.error("Error in verifyOtp:", error.message);
     return res.status(500).json({ message: "Internal server error." });
@@ -213,6 +216,7 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+//logout
 const logout = async (req, res) => {
   try {
     res.clearCookie("token", {

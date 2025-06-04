@@ -9,11 +9,11 @@ const SavedPage = () => {
   useEffect(() => {
     fetchRecipe();
   }, []);
-  console.log("Saved Recipes:", savedRecipes);
+  //console.log("Saved Recipes:", savedRecipes);
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-xl  font-bold">Saved Recipes</h1>
-      {savedRecipes.length === 0 ? (
+      {savedRecipes?.length === 0 ? (
         <div className="flex flex-col justify-center items-center">
           <img src={empty} alt="empty" className="w-44 h-44" />
           <p className="text-center mt-5 font-semibold text-gray-600">
@@ -21,9 +21,7 @@ const SavedPage = () => {
           </p>
         </div>
       ) : (
-        <div>
-          <SavedCard recipe={savedRecipes} />
-        </div>
+        <div>{savedRecipes && <SavedCard recipe={savedRecipes} />}</div>
       )}
     </div>
   );

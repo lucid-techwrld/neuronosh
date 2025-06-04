@@ -15,9 +15,9 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/recipe/:name" element={<RecipePage />} />
           <Route path="/saved" element={<SavedPage />} />
+          <Route path="/verify/:email" element={<OTPpage />} />
         </Route>
         <Route path="/auth" element={<SiginPage />} />
-        <Route path="/verify/:email" element={<OTPpage />} />
       </Routes>
     </>
   );

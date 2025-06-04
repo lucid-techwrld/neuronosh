@@ -18,8 +18,6 @@ export const UserProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      console.log(res.data.message);
-      console.log(res.data.user);
       setUser(res.data.user);
       setIsLoggedIn(true);
     } catch (error) {
@@ -40,6 +38,7 @@ export const UserProvider = ({ children }) => {
         }
       );
       console.log(res.data.message);
+      console.log(res.data);
       setIsLoggedIn(true);
       if (!res.data.isVerified) {
         return { notVerified: true };

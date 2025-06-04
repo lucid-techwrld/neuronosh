@@ -1,11 +1,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import recipes from "../recipeData";
+import { useUser } from "./UserContext";
 
 const SaveContext = createContext();
 
 export const SaveProvider = ({ children }) => {
-  const [savedRecipes, setSavedRecipes] = useState(recipes);
+  const { isLoggedIn } = useUser();
+  const [savedRecipes, setSavedRecipes] = useState(null);
   const [saving, setVaing] = useState(false);
 
   const handleSaveRecipe = async (recipe) => {
@@ -40,13 +42,21 @@ export const SaveProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-
-      console.log(res.data);
-      setSavedRecipes((prev) => [...prev, res.data.savedRecipe]);
+      setSavedRecipes(res.data.savedRecipes || []);
     } catch (error) {
       console.log("Save Error", error.res?.data || error.message);
+      setSavedRecipes([]);
     }
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setSavedRecipes(null);
+      fetchRecipe();
+    } else {
+      setSavedRecipes(recipes);
+    }
+  }, [isLoggedIn]);
 
   const handleDelete = (name) => {
     const updatedRecipe = savedRecipes.filter((recipe) => recipe.name !== name);
