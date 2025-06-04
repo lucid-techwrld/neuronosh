@@ -1,0 +1,21 @@
+const recommend = [
+  {
+    name: "Crispy Garden Toss",
+    desc: "A refreshing medley of roasted and raw vegetables tossed in a tangy lemon-herb vinaigrette. Perfect for using up assorted greens, crunchy bits, and last-chance produce from the fridge.",
+  },
+  {
+    name: "One-Pot Pantry Pasta",
+    desc: "A cozy, customizable pasta dish made entirely from pantry staples like canned tomatoes, garlic, olive oil, and whatever protein or veggies you have on hand. Minimal dishes, maximum flavor.",
+  },
+
+  {
+    name: "Wrap Hack Supreme",
+    desc: "A fully loaded flatbread wrap stuffed with leftovers, quick-cooked fillings, and a drizzle of homemade sauce. Fold it, toast it, and enjoy a handheld meal that’s fast and flexible.",
+  },
+  {
+    name: "Veggie Fusion Skillet",
+    desc: "A hearty, one-pan vegetarian dish that brings together sautéed seasonal vegetables, tender legumes, and warm spices. Perfectly adaptable to whatever's in your crisper drawer — comfort food with a healthy, plant-based twist.",
+  },
+];
+
+export default recommend;

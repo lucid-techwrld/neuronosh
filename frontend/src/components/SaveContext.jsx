@@ -1,13 +1,16 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import recipes from "../recipeData";
 
 const SaveContext = createContext();
 
 export const SaveProvider = ({ children }) => {
-  const [savedRecipes, setSavedRecipes] = useState([]);
+  const [savedRecipes, setSavedRecipes] = useState(recipes);
+  const [saving, setVaing] = useState(false);
 
   const handleSaveRecipe = async (recipe) => {
     try {
+      setVaing(true);
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_API_URL}/api/recipe/save`,
         { recipe },
@@ -21,6 +24,8 @@ export const SaveProvider = ({ children }) => {
       console.log(res.data.message);
     } catch (error) {
       console.log("Save Error", error.res?.data || error.message);
+    } finally {
+      setVaing(false);
     }
   };
 
@@ -37,7 +42,7 @@ export const SaveProvider = ({ children }) => {
       );
 
       console.log(res.data);
-      setSavedRecipes(res.data.savedRecipe);
+      setSavedRecipes((prev) => [...prev, res.data.savedRecipe]);
     } catch (error) {
       console.log("Save Error", error.res?.data || error.message);
     }
@@ -56,6 +61,7 @@ export const SaveProvider = ({ children }) => {
         handleSaveRecipe,
         handleDelete,
         fetchRecipe,
+        saving,
       }}
     >
       {children}

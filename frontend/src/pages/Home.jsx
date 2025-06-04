@@ -5,6 +5,7 @@ import IngredientList from "../components/IngredientList";
 import Recommend from "../components/Recommend";
 import { useRecipe } from "../components/RecipeContext";
 import { useNavigate } from "react-router-dom";
+import recommend from "../recommend";
 
 const Home = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -45,13 +46,8 @@ const Home = () => {
     const newIngredient = ingredients.filter((ingredient) => {
       return ingredient !== item;
     });
-    //console.log(newIngredient);
     setIngredients(newIngredient);
   };
-
-  // useEffect(() => {
-  //   console.log("ingredient array", ingredients);
-  // }, [ingredients]);
 
   return (
     <div className="relative h-screen w-full">
@@ -126,23 +122,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const recommend = [
-  {
-    name: "Crispy Garden Toss",
-    desc: "A refreshing medley of roasted and raw vegetables tossed in a tangy lemon-herb vinaigrette. Perfect for using up assorted greens, crunchy bits, and last-chance produce from the fridge.",
-  },
-  {
-    name: "One-Pot Pantry Pasta",
-    desc: "A cozy, customizable pasta dish made entirely from pantry staples like canned tomatoes, garlic, olive oil, and whatever protein or veggies you have on hand. Minimal dishes, maximum flavor.",
-  },
-
-  {
-    name: "Wrap Hack Supreme",
-    desc: "A fully loaded flatbread wrap stuffed with leftovers, quick-cooked fillings, and a drizzle of homemade sauce. Fold it, toast it, and enjoy a handheld meal that’s fast and flexible.",
-  },
-  {
-    name: "Veggie Fusion Skillet",
-    desc: "A hearty, one-pan vegetarian dish that brings together sautéed seasonal vegetables, tender legumes, and warm spices. Perfectly adaptable to whatever's in your crisper drawer — comfort food with a healthy, plant-based twist.",
-  },
-];

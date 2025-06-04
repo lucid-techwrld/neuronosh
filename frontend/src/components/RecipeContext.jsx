@@ -5,7 +5,7 @@ import recipes from "../recipeData";
 const RecipeContext = createContext();
 
 export const RecipeProvider = ({ children }) => {
-  const [generatedRecipe, setGeneratedRecipe] = useState(null);
+  const [generatedRecipe, setGeneratedRecipe] = useState(recipes);
 
   const generateRecipe = async ({ ingredients }) => {
     try {
@@ -21,7 +21,7 @@ export const RecipeProvider = ({ children }) => {
       );
       const recipe = res.data.recipe;
       console.log(recipe);
-      setGeneratedRecipe(res.data.recipe);
+      setGeneratedRecipe((prev) => [...prev, res.data.recipe]);
       return recipe;
     } catch (error) {
       console.log("Generate Recipe Error", error.res?.data || error.message);

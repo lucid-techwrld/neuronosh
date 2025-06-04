@@ -1,9 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 const OTPpage = () => {
   const [otp, setOTP] = useState(Array(6).fill(""));
+  const { email } = useParams();
   const inputsRef = useRef([]);
+  const navigate = useNavigate();
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -30,7 +33,7 @@ const OTPpage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const fullOtp = otp.join("");
-    console.log("OTP entered:", fullOtp);
+    console.log("OTP entered:", email, fullOtp);
   };
 
   useEffect(() => {
@@ -63,6 +66,13 @@ const OTPpage = () => {
             />
           ))}
         </div>
+        <p>OTP Expires in 5 Minutes</p>
+        <p>
+          Didn't Recive OTP?{" "}
+          <span className="text-blue-500" onClick={() => navigate("/auth")}>
+            Resend
+          </span>
+        </p>
         <button
           type="submit"
           className="mt-5 bg-black text-white px-4 py-2 rounded-lg"

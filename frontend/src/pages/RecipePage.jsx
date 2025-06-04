@@ -1,19 +1,21 @@
-import { Download, Heart } from "lucide-react";
+import { Download, Heart, LoaderIcon } from "lucide-react";
 import { useParams } from "react-router-dom";
-import recipes from "../recipeData";
 import { useSaves } from "../components/SaveContext";
 import { useRecipe } from "../components/RecipeContext";
+import image from "../assets/image.png";
 
 const RecipePage = () => {
   const { name } = useParams();
-  console.log("Recipe Name:", name);
   const { generatedRecipe } = useRecipe();
-  const { handleSaveRecipe } = useSaves();
-  console.log("recipe", generatedRecipe);
+  const { handleSaveRecipe, saving } = useSaves();
+
+  const matchingRecipe = generatedRecipe.find((item) => {
+    return item.name === name;
+  });
 
   return (
     <div className="flex flex-col w-full h-full">
-      {generatedRecipe ? (
+      {matchingRecipe ? (
         <>
           <div className="flex-grow w-full px-5 lg:px-20 space-y-5">
             <h1 className="text-xl font-bold mb-10 text-orange-400">
@@ -21,23 +23,23 @@ const RecipePage = () => {
             </h1>
 
             <h2 className="text-md font-bold">
-              {generatedRecipe.name?.toUpperCase()}
+              {matchingRecipe.name?.toUpperCase()}
             </h2>
 
             <p>
               <strong>Description:</strong> <br />
-              {generatedRecipe.description}
+              {matchingRecipe.description}
             </p>
 
             <p>
               <strong>Instructions:</strong> <br />
-              {generatedRecipe.instructions}
+              {matchingRecipe.instructions}
             </p>
 
             <div>
               <h3 className="font-semibold mb-2">Ingredients:</h3>
               <ul className="list-disc list-inside space-y-1">
-                {generatedRecipe.ingredients?.map((ingredient, index) => (
+                {matchingRecipe.ingredients?.map((ingredient, index) => (
                   <li key={index}>{ingredient}</li>
                 ))}
               </ul>
@@ -47,11 +49,11 @@ const RecipePage = () => {
           {/* Bottom Buttons */}
           <div className="w-full h-20 md:h-24 lg:h-24 shrink-0 flex items-center justify-center gap-4 border-t p-4">
             <button
-              onClick={() => handleSaveRecipe(generatedRecipe)}
+              onClick={() => handleSaveRecipe(matchingRecipe)}
               aria-label="Save Recipe"
               className="flex items-center gap-2 text-orange-400 hover:bg-orange-400 hover:text-white h-full border-2 border-orange-400 rounded-md px-5"
             >
-              <Heart />
+              {saving ? <LoaderIcon className="animate-spin" /> : <Heart />}
             </button>
             <button className="flex items-center gap-2 bg-orange-400 text-white px-4 py-2 rounded hover:bg-orange-500 h-full">
               <Download />
@@ -60,8 +62,17 @@ const RecipePage = () => {
           </div>
         </>
       ) : (
-        <div className="flex w-full justify-center">
-          Generate Recipe and check again
+        <div className="flex flex-col w-full justify-center items-center space-y-10">
+          <img
+            src={image}
+            alt="image"
+            width={"200px"}
+            height={"200px"}
+            className="mt-5"
+          />
+          <p className="text-xl text-gray-500 hover:text-gray-600">
+            Generate Recipe and check again
+          </p>
         </div>
       )}
     </div>

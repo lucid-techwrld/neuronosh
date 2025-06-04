@@ -22,6 +22,8 @@ const SiginPage = () => {
       const res = await login(email, password);
       if (res?.success) {
         navigate("/");
+      } else if (res?.notVerified) {
+        navigate(`/verify/${email}`);
       }
     } catch (error) {
       console.log(error);

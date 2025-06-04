@@ -41,7 +41,11 @@ export const UserProvider = ({ children }) => {
       );
       console.log(res.data.message);
       setIsLoggedIn(true);
-      return { success: true };
+      if (!res.data.isVerified) {
+        return { notVerified: true };
+      } else {
+        return { success: true };
+      }
     } catch (error) {
       const message =
         error.response?.data?.message || "Something went wrong, try again.";

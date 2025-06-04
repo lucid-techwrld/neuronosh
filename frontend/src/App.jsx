@@ -17,7 +17,7 @@ const App = () => {
           <Route path="/saved" element={<SavedPage />} />
         </Route>
         <Route path="/auth" element={<SiginPage />} />
-        <Route path="/verify" element={<OTPpage />} />
+        <Route path="/verify/:email" element={<OTPpage />} />
       </Routes>
     </>
   );

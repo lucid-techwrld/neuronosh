@@ -1,7 +1,8 @@
 const recipes = [
   {
     name: "Crispy Garden Toss",
-    desc: "A refreshing medley of roasted and raw vegetables tossed in a tangy lemon-herb vinaigrette. Perfect for using up assorted greens, crunchy bits, and last-chance produce from the fridge.",
+    description:
+      "A refreshing medley of roasted and raw vegetables tossed in a tangy lemon-herb vinaigrette. Perfect for using up assorted greens, crunchy bits, and last-chance produce from the fridge.",
     ingredients: [
       "1 cup cherry tomatoes, halved",
       "1 bell pepper, sliced",
@@ -26,7 +27,8 @@ const recipes = [
   },
   {
     name: "One-Pot Pantry Pasta",
-    desc: "A cozy, customizable pasta dish made entirely from pantry staples like canned tomatoes, garlic, olive oil, and whatever protein or veggies you have on hand. Minimal dishes, maximum flavor.",
+    description:
+      "A cozy, customizable pasta dish made entirely from pantry staples like canned tomatoes, garlic, olive oil, and whatever protein or veggies you have on hand. Minimal dishes, maximum flavor.",
     ingredients: [
       "8 oz dry pasta",
       "2 tbsp olive oil",
@@ -51,7 +53,8 @@ const recipes = [
   },
   {
     name: "Wrap Hack Supreme",
-    desc: "A fully loaded flatbread wrap stuffed with leftovers, quick-cooked fillings, and a drizzle of homemade sauce. Fold it, toast it, and enjoy a handheld meal that’s fast and flexible.",
+    description:
+      "A fully loaded flatbread wrap stuffed with leftovers, quick-cooked fillings, and a drizzle of homemade sauce. Fold it, toast it, and enjoy a handheld meal that’s fast and flexible.",
     ingredients: [
       "1 large tortilla or flatbread",
       "1/4 cup cooked rice or grains",

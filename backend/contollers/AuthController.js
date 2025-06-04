@@ -35,6 +35,7 @@ const email_user_auth = async (req, res) => {
         await SendOTP(email, otp);
         return res.json({
           message: "Verification email sent. Please check your inbox.",
+          isVerified: false,
         });
       }
     } else {
