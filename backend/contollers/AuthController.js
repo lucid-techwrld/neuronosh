@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { createOTP } = require("../helper/otp");
 const { generateJwtToken, setAuthCookie } = require("../helper/token");
