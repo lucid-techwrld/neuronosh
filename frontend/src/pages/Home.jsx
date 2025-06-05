@@ -18,7 +18,7 @@ const Home = () => {
       setLoading(true);
       if (ingredients <= 0) return;
       const recipe = await generateRecipe({ ingredients });
-      if (recipe.name) {
+      if (recipe?.name) {
         navigate(`/recipe/${recipe?.name}`);
       } else {
         console.log("Recipe is empty ");

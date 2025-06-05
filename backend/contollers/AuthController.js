@@ -182,7 +182,7 @@ const googleAuth = async (req, res) => {
     setAuthCookie(res, token);
     await sendMail(req.user.email);
 
-    res.redirect("http://localhost:5173");
+    res.redirect(process.env.FRONT_END);
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -223,6 +223,7 @@ const logout = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      path: "/",
     });
 
     res.status(200).json({ success: true, message: "Logged out successfully" });

@@ -7,11 +7,11 @@ import image from "../assets/image.png";
 const RecipePage = () => {
   const { name } = useParams();
   const { generatedRecipe } = useRecipe();
-  const { handleSaveRecipe, saving } = useSaves();
+  const { savedRecipes, handleSaveRecipe, saving } = useSaves();
 
-  const matchingRecipe = generatedRecipe.find((item) => {
-    return item.name === name;
-  });
+  const matchingRecipe =
+    (generatedRecipe && generatedRecipe.find((item) => item.name === name)) ||
+    (savedRecipes && savedRecipes.find((item) => item.name === name));
 
   return (
     <div className="flex flex-col w-full h-full">

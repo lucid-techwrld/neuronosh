@@ -10,6 +10,17 @@ const Header = () => {
   const [menu, setMenu] = useState(false);
   const { isLoggedIn, logout, user } = useUser();
 
+  const handleLogout = async () => {
+    try {
+      const res = await logout();
+      if (res.success) {
+        navigate("/auth");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <header className="w-full h-18 flex justify-between px-4 py-2 items-center fixed top-0 z-50 bg-white/10 backdrop-blur-3xl">
@@ -62,7 +73,7 @@ const Header = () => {
               <li
                 className="cursor-pointer hover:text-orange-500"
                 onClick={() => {
-                  isLoggedIn ? logout() : navigate("/auth");
+                  isLoggedIn ? handleLogout() : navigate("/auth");
                 }}
               >
                 {isLoggedIn ? "Logout" : "Login"}

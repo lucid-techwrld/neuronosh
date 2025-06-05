@@ -27,8 +27,6 @@ export const UserProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      console.log(email);
-      console.log("login....");
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_API_URL}/api/auth/email`,
         { email, password },
@@ -37,8 +35,7 @@ export const UserProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      console.log(res.data.message);
-      console.log(res.data);
+
       setIsLoggedIn(true);
       if (!res.data.isVerified) {
         return { notVerified: true };
@@ -48,8 +45,8 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       const message =
         error.response?.data?.message || "Something went wrong, try again.";
-
       console.log("Login Error:", message);
+      return { error: message };
     }
   };
 
@@ -61,10 +58,12 @@ export const UserProvider = ({ children }) => {
       if (res.data?.success) {
         setUser(null);
         setIsLoggedIn(false);
-        console.log(res.data);
       }
+      return { success: true };
     } catch (error) {
-      console.log("Logout Error", error.res?.data || error.messge);
+      const message =
+        error.response?.data?.message || "Something went wrong, try again.";
+      return { error: message };
     }
   };
   useEffect(() => {

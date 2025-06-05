@@ -10,6 +10,7 @@ function setAuthCookie(res, token) {
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
     maxAge: 1 * 24 * 60 * 60 * 1000,
+    path: "/",
   });
 }
 

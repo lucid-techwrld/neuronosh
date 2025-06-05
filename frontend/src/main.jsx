@@ -11,13 +11,13 @@ import { RecipeProvider } from "./components/RecipeContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <UserProvider>
-      <RecipeProvider>
-        <SaveProvider>
+      <SaveProvider>
+        <RecipeProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
-        </SaveProvider>
-      </RecipeProvider>
+        </RecipeProvider>
+      </SaveProvider>
     </UserProvider>
   </StrictMode>
 );

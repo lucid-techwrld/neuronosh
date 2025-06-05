@@ -1,10 +1,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import recipes from "../recipeData";
+import { useSaves } from "./SaveContext";
 
 const RecipeContext = createContext();
 
 export const RecipeProvider = ({ children }) => {
+  const { savedRecipes } = useSaves();
   const [generatedRecipe, setGeneratedRecipe] = useState(recipes);
 
   const generateRecipe = async ({ ingredients }) => {
@@ -37,7 +39,7 @@ export const RecipeProvider = ({ children }) => {
 export const useRecipe = () => {
   const context = useContext(RecipeContext);
   if (!context) {
-    return console.log("Recipe context is undefined");
+    throw new Error("Recipe context is undefined");
   }
   return context;
 };

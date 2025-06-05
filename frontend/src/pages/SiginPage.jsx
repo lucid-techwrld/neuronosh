@@ -2,7 +2,7 @@ import image from "../assets/thermopro-wAkmA9I54dY-unsplash.jpg";
 import illus from "../assets/undraw_chef_yoa7.svg";
 import google from "../assets/Google__G__logo.svg.png";
 import icloud from "../assets/apple-logo.png";
-import { Phone, Mail, Loader, LockIcon } from "lucide-react";
+import { Phone, Mail, Loader, EyeIcon, EyeOffIcon, Eye } from "lucide-react";
 import { useState } from "react";
 import { useUser } from "../components/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,9 @@ const SiginPage = () => {
   const navigate = useNavigate();
   const [googleLoad, setGooleLoad] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { login, isLoggedIn } = useUser();
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const { login } = useUser();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -24,9 +26,11 @@ const SiginPage = () => {
         navigate("/");
       } else if (res?.notVerified) {
         navigate(`/verify/${email}`);
+      } else if (res?.error) {
+        setError(res.error);
       }
     } catch (error) {
-      console.log(error);
+      setError("Something went wrong, please try again.");
     } finally {
       event.target.reset();
       setLoading(false);
@@ -37,6 +41,12 @@ const SiginPage = () => {
     e.preventDefault();
     setGooleLoad(true);
     window.location.href = "http://localhost:5000/api/auth/google";
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+    const psw = document.getElementById("password");
+    psw.type = showPassword ? "text" : "password";
   };
 
   return (
@@ -67,6 +77,7 @@ const SiginPage = () => {
               />
               <Mail className="absolute right-3 top-3 text-gray-500" />
             </div>
+
             <div className="relative mt-5">
               <input
                 type="password"
@@ -77,7 +88,15 @@ const SiginPage = () => {
                 required
                 className="w-full h-10 outline-none  border-2 border-black p-5 pr-10"
               />
-              <LockIcon className="absolute right-3 top-3 text-gray-500" />
+
+              <p className="text-red-400 text-sm">{error}</p>
+              {/* error line */}
+              <button
+                className="absolute right-3 top-3 text-gray-500"
+                onClick={() => handleShowPassword()}
+              >
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              </button>
             </div>
 
             <button

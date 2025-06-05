@@ -42,7 +42,7 @@ export const SaveProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      setSavedRecipes(res.data.savedRecipes || []);
+      setSavedRecipes(res.data.savedRecipe || []);
     } catch (error) {
       console.log("Save Error", error.res?.data || error.message);
       setSavedRecipes([]);
