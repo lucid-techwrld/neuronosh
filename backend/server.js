@@ -14,7 +14,7 @@ const connectDB = require("./config/mongoDB");
 
 app.set("trust proxy", 1);
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://neuronosh.netlify.app"],
+  origin: ["http://localhost:5173", process.env.FRONT_END],
   credentials: true,
 };
 app.use(cors(corsOptions));
