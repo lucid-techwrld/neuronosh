@@ -2,15 +2,20 @@ import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import recipes from "../recipeData";
 import { useSaves } from "./SaveContext";
+import { toast } from "sonner";
 
 const RecipeContext = createContext();
 
 export const RecipeProvider = ({ children }) => {
-  const { savedRecipes } = useSaves();
+  const { savedRecipes, setSavedRecipes } = useSaves();
   const [generatedRecipe, setGeneratedRecipe] = useState(recipes);
 
   const generateRecipe = async ({ ingredients }) => {
     try {
+      if (!navigator.onLine) {
+        toast.error("You're offline. Check your internet connection.");
+        return;
+      }
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_API_URL}/api/recipe/generate-recipe`,
         { ingredients },
@@ -26,11 +31,53 @@ export const RecipeProvider = ({ children }) => {
       setGeneratedRecipe((prev) => [...prev, res.data.recipe]);
       return recipe;
     } catch (error) {
-      console.log("Generate Recipe Error", error.res?.data || error.message);
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Something went wrong. Please try again.";
+
+      console.log("Generate Recipe Error:", message);
+      toast.error(message);
     }
   };
+
+  const deleteRecipe = async (recipe_name) => {
+    try {
+      if (!navigator.onLine) {
+        toast.error("You're offline. Check your internet connection.");
+        return;
+      }
+
+      const res = await axios.delete(
+        `${import.meta.env.VITE_BASE_API_URL}/api/recipe/delete`,
+        { recipe: recipe_name },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success(res.data.message || "Recipe deleted successfully!");
+      const updatedRecipe = savedRecipes.filter(
+        (recipe) => recipe.name !== recipe_name
+      );
+      setSavedRecipes(updatedRecipe);
+    } catch (error) {
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Something went wrong. Please try again.";
+
+      console.log("Delete Recipe Error:", message);
+      toast.error(message);
+    }
+  };
+
   return (
-    <RecipeContext.Provider value={{ generateRecipe, generatedRecipe }}>
+    <RecipeContext.Provider
+      value={{ generateRecipe, generatedRecipe, deleteRecipe }}
+    >
       {children}
     </RecipeContext.Provider>
   );

@@ -82,18 +82,12 @@ export const SaveProvider = ({ children }) => {
     }
   }, [isLoggedIn]);
 
-  const handleDelete = (name) => {
-    const updatedRecipe = savedRecipes.filter((recipe) => recipe.name !== name);
-    setSavedRecipes(updatedRecipe);
-  };
-
   return (
     <SaveContext.Provider
       value={{
         savedRecipes,
         setSavedRecipes,
         handleSaveRecipe,
-        handleDelete,
         fetchRecipe,
         saving,
       }}

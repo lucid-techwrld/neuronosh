@@ -20,7 +20,6 @@ export const UserProvider = ({ children }) => {
         }
       );
       setUser(res.data.user);
-      toast.success(res.data.message || "User fetched successfully!");
       setIsLoggedIn(true);
     } catch (error) {
       const message =

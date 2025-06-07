@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "sonner";
 
 const verifyOTP = async (otp, email) => {
-  console.log(otp, email);
+  //console.log(otp, email);
   try {
     if (!navigator.onLine) {
       toast.error("You're offline. Check your internet connection.");

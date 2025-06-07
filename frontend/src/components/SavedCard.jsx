@@ -1,9 +1,9 @@
 import { Delete } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useSaves } from "./SaveContext";
+import { useRecipe } from "./RecipeContext";
 
 const SavedCard = ({ recipe }) => {
-  const { handleDelete } = useSaves();
+  const { deleteRecipe } = useRecipe();
   const navigate = useNavigate();
   return (
     <div>
@@ -20,7 +20,7 @@ const SavedCard = ({ recipe }) => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                handleDelete(item.name);
+                deleteRecipe(item.name);
               }}
               className="text-red-500 hover:text-red-700 border-2 border-red-500 rounded-md p-1 w-10 h-10"
             >

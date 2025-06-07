@@ -48,12 +48,6 @@ const SiginPage = () => {
     }/api/auth/google`;
   };
 
-  const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-    const psw = document.getElementById("password");
-    psw.type = showPassword ? "text" : "password";
-  };
-
   return (
     <div className="flex w-full h-screen items-center">
       <div className="hidden md:block md:w-1/2 lg:block lg:w-1/2 h-full border-2 relative">
@@ -85,7 +79,7 @@ const SiginPage = () => {
 
             <div className="relative mt-5">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 id="password"
                 placeholder="Password"
@@ -98,7 +92,8 @@ const SiginPage = () => {
               {/* error line */}
               <button
                 className="absolute right-3 top-3 text-gray-500"
-                onClick={() => handleShowPassword()}
+                onClick={() => setShowPassword((prev) => !prev)}
+                type="button"
               >
                 {showPassword ? <EyeOffIcon /> : <EyeIcon />}
               </button>
