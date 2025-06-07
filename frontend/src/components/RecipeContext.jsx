@@ -26,8 +26,6 @@ export const RecipeProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      const recipe = res.data.recipe;
-      console.log(recipe);
       setGeneratedRecipe((prev) => [...prev, res.data.recipe]);
       return recipe;
     } catch (error) {
@@ -36,12 +34,12 @@ export const RecipeProvider = ({ children }) => {
         error.response?.data?.error ||
         "Something went wrong. Please try again.";
 
-      console.log("Generate Recipe Error:", message);
+      // console.log("Generate Recipe Error:", message);
       toast.error(message);
     }
   };
 
-  const deleteRecipe = async (recipe_name) => {
+  const handleDeleteRecipe = async (name) => {
     try {
       if (!navigator.onLine) {
         toast.error("You're offline. Check your internet connection.");
@@ -50,18 +48,19 @@ export const RecipeProvider = ({ children }) => {
 
       const res = await axios.delete(
         `${import.meta.env.VITE_BASE_API_URL}/api/recipe/delete`,
-        { recipe: recipe_name },
         {
+          data: { name },
           headers: {
             "Content-Type": "application/json",
           },
           withCredentials: true,
         }
       );
-      toast.success(res.data.message || "Recipe deleted successfully!");
-      const updatedRecipe = savedRecipes.filter(
-        (recipe) => recipe.name !== recipe_name
-      );
+      let updatedRecipe;
+      if (res.data.success) {
+        toast.success(res.data.message || "Recipe deleted successfully!");
+        updatedRecipe = savedRecipes.filter((recipe) => recipe.name !== name);
+      }
       setSavedRecipes(updatedRecipe);
     } catch (error) {
       const message =
@@ -76,7 +75,7 @@ export const RecipeProvider = ({ children }) => {
 
   return (
     <RecipeContext.Provider
-      value={{ generateRecipe, generatedRecipe, deleteRecipe }}
+      value={{ generateRecipe, generatedRecipe, handleDeleteRecipe }}
     >
       {children}
     </RecipeContext.Provider>

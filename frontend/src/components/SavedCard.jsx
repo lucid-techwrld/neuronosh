@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecipe } from "./RecipeContext";
 
 const SavedCard = ({ recipe }) => {
-  const { deleteRecipe } = useRecipe();
+  const { handleDeleteRecipe } = useRecipe();
   const navigate = useNavigate();
   return (
     <div>
@@ -20,7 +20,7 @@ const SavedCard = ({ recipe }) => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                deleteRecipe(item.name);
+                handleDeleteRecipe(item.name);
               }}
               className="text-red-500 hover:text-red-700 border-2 border-red-500 rounded-md p-1 w-10 h-10"
             >

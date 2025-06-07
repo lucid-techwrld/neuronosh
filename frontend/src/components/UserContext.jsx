@@ -28,7 +28,6 @@ export const UserProvider = ({ children }) => {
         "Something went wrong. Please try again.";
 
       console.log("Error Fetching User:", message);
-      toast.error(message);
     }
   };
 

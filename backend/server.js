@@ -6,6 +6,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
 const RecipeRoute = require("./routes/RecipeRoute");
 const AuthRoute = require("./routes/AuthRoute");
 const passport = require("passport");
@@ -16,6 +17,7 @@ const corsOptions = {
   credentials: true,
 };
 
+app.use(helmet());
 app.use(passport.initialize());
 app.use(cors(corsOptions));
 app.use(cookieParser());

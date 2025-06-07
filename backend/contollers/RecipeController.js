@@ -123,8 +123,8 @@ const getSavedRecipe = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
   const userId = req.user?.userId;
-  const { recipe } = req.body;
-  console.log("Deleting recipe:", recipe);
+  const { name } = req.body;
+
   if (!userId) {
     return res.status(401).json({ message: "Please login to delete recipe" });
   }
@@ -134,7 +134,7 @@ const deleteRecipe = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    const recipeIndex = user.saves.findIndex((r) => r.name === recipe);
+    const recipeIndex = user.saves.findIndex((r) => r.name === name);
     if (recipeIndex === -1) {
       return res
         .status(400)
