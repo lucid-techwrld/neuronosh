@@ -13,7 +13,7 @@ const passport = require("passport");
 const connectDB = require("./config/mongoDB");
 
 const corsOptions = {
-  origin: ["https://neuronosh.netlify.app", "http://localhost:5173"],
+  origin: [process.env.FRONT_END, "http://localhost:5173"],
   credentials: true,
 };
 app.use(cors(corsOptions));
