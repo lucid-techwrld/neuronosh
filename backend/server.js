@@ -12,14 +12,15 @@ const AuthRoute = require("./routes/AuthRoute");
 const passport = require("passport");
 const connectDB = require("./config/mongoDB");
 
+app.set("trust proxy", 1);
 const corsOptions = {
   origin: ["http://localhost:5173", "https://neuronosh.netlify.app"],
   credentials: true,
 };
-
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(helmet());
 app.use(passport.initialize());
-app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
