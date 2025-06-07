@@ -61,7 +61,7 @@ const Home = () => {
       {/* Foreground Content */}
       <div className="absolute inset-0 flex flex-col items-center z-10 mt-5 lg:mt-10 md:mt-10 bg-white/60 backdrop-blur-sm px-3">
         <div className="w-full lg:w-[60%] md:w-[60%] flex flex-col items-center">
-          <p className="text-center text-xl">
+          <p className="text-center text-xl font-myFont">
             <span className="font-bold text-2xl text-orange-400">
               NeuroNosh
             </span>{" "}
@@ -112,7 +112,7 @@ const Home = () => {
         </div>
 
         {/* Recommended Recipes */}
-        <div className="mt-20 flex flex-col w-full justify-start lg:px-10 md:px-7">
+        <div className="mt-20 flex flex-col w-full justify-start lg:px-10 md:px-7 md:w-[80%] lg:w-[80%] ">
           <h2 className="font-bold text-xl">Recommended Recipes</h2>
           <Recommend recommend={recommend} />
         </div>

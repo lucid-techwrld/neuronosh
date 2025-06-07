@@ -28,6 +28,9 @@ const SiginPage = () => {
         navigate(`/verify/${email}`);
       } else if (res?.error) {
         setError(res.error);
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
       }
     } catch (error) {
       setError("Something went wrong, please try again.");
@@ -40,9 +43,9 @@ const SiginPage = () => {
   const handleGoogleLogin = async (e) => {
     e.preventDefault();
     setGooleLoad(true);
-    window.location.href = `
-${import.meta.env.VITE_API_BASE_URL}/api/auth/google`
-;
+    window.location.href = `${
+      import.meta.env.VITE_BASE_API_URL
+    }/api/auth/google`;
   };
 
   const handleShowPassword = () => {
@@ -91,7 +94,7 @@ ${import.meta.env.VITE_API_BASE_URL}/api/auth/google`
                 className="w-full h-10 outline-none  border-2 border-black p-5 pr-10"
               />
 
-              <p className="text-red-400 text-sm">{error}</p>
+              <p className="text-red-500 text-sm">{error}</p>
               {/* error line */}
               <button
                 className="absolute right-3 top-3 text-gray-500"

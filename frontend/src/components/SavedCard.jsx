@@ -22,7 +22,7 @@ const SavedCard = ({ recipe }) => {
                 e.stopPropagation();
                 handleDelete(item.name);
               }}
-              className="text-red-500 hover:text-red-700 border-2 border-red-500 rounded-md p-1"
+              className="text-red-500 hover:text-red-700 border-2 border-red-500 rounded-md p-1 w-10 h-10"
             >
               <Delete className="w-full h-full" />
             </button>
