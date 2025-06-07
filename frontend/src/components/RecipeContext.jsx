@@ -27,7 +27,7 @@ export const RecipeProvider = ({ children }) => {
         }
       );
       setGeneratedRecipe((prev) => [...prev, res.data.recipe]);
-      return recipe;
+      return res.data.recipe;
     } catch (error) {
       const message =
         error.response?.data?.message ||

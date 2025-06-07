@@ -29,7 +29,7 @@ export const SaveProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      console.log(res.data.message);
+      //console.log(res.data.message);
       toast.success(res.data.message || "Recipe saved successfully!");
     } catch (error) {
       const message =
@@ -37,7 +37,7 @@ export const SaveProvider = ({ children }) => {
         error.response?.data?.error ||
         "Something went wrong. Please try again.";
 
-      console.log("Save Error:", message);
+      //console.log("Save Error:", message);
       toast.error(message);
     } finally {
       setVaing(false);
@@ -67,7 +67,7 @@ export const SaveProvider = ({ children }) => {
         error.response?.data?.error ||
         "Something went wrong. Please try again.";
 
-      console.log("Error Fetching Recipe:", message);
+      //console.log("Error Fetching Recipe:", message);
       toast.error(message);
       setSavedRecipes([]);
     }

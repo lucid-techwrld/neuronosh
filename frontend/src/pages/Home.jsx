@@ -5,6 +5,7 @@ import IngredientList from "../components/IngredientList";
 import Recommend from "../components/Recommend";
 import { useRecipe } from "../components/RecipeContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import recommend from "../recommend";
 
 const Home = () => {
@@ -21,10 +22,10 @@ const Home = () => {
       if (recipe?.name) {
         navigate(`/recipe/${recipe?.name}`);
       } else {
-        console.log("Recipe is empty ");
+        toast.error("No recipe found with the given ingredients.");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
