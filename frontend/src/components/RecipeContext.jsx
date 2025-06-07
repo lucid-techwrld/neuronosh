@@ -68,7 +68,7 @@ export const RecipeProvider = ({ children }) => {
         error.response?.data?.error ||
         "Something went wrong. Please try again.";
 
-      console.log("Delete Recipe Error:", message);
+      //console.log("Delete Recipe Error:", message);
       toast.error(message);
     }
   };
