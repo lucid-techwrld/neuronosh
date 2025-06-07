@@ -1,18 +1,30 @@
 import axios from "axios";
+import { toast } from "sonner";
 
 const verifyOTP = async (otp, email) => {
   console.log(otp, email);
   try {
+    if (!navigator.onLine) {
+      toast.error("You're offline. Check your internet connection.");
+      return;
+    }
+
     const res = await axios.post(
       `${import.meta.env.VITE_BASE_API_URL}/api/auth/verify-otp`,
       { otp, email }
     );
 
     console.log(res.data);
-    return { success: res.success, error: null };
+    toast.success("OTP verified successfully!");
+    return { success: res.data.success, error: null };
   } catch (error) {
-    const message = error.response?.data?.message || "An error occurred";
-    console.error("Error verifying OTP:", message);
+    const message =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      "Something went wrong. Please try again.";
+
+    console.log("Error Verifying OTP:", message);
+    toast.error(message);
   }
 };
 

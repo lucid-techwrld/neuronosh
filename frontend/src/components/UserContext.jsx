@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 const UserContext = createContext();
 
@@ -19,14 +20,26 @@ export const UserProvider = ({ children }) => {
         }
       );
       setUser(res.data.user);
+      toast.success(res.data.message || "User fetched successfully!");
       setIsLoggedIn(true);
     } catch (error) {
-      console.log("Fetch User Error", error.res?.data.message || error.message);
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Something went wrong. Please try again.";
+
+      console.log("Error Fetching User:", message);
+      toast.error(message);
     }
   };
 
   const login = async (email, password) => {
     try {
+      if (!navigator.onLine) {
+        toast.error("You're offline. Check your internet connection.");
+        return;
+      }
+
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_API_URL}/api/auth/email`,
         { email, password },
@@ -44,25 +57,39 @@ export const UserProvider = ({ children }) => {
       }
     } catch (error) {
       const message =
-        error.response?.data?.message || "Something went wrong, try again.";
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Something went wrong. Please try again.";
+
       console.log("Login Error:", message);
-      return { error: message };
+      toast.error(message);
     }
   };
 
   const logout = async () => {
     try {
+      if (!navigator.onLine) {
+        toast.error("You're offline. Check your internet connection.");
+        return;
+      }
+
       const res = await axios.get(
         `${import.meta.env.VITE_BASE_API_URL}/api/auth/logout`
       );
       if (res.data?.success) {
         setUser(null);
         setIsLoggedIn(false);
+        toast.success(res.data.message || "Logged out successfully!");
       }
       return { success: true };
     } catch (error) {
       const message =
-        error.response?.data?.message || "Something went wrong, try again.";
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Something went wrong. Please try again.";
+
+      console.log("Logout Error:", message);
+      toast.error(message);
       return { error: message };
     }
   };

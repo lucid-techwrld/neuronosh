@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { Toaster } from "sonner";
 import Home from "./pages/Home";
 import Layout from "./components/Layout";
 import RecipePage from "./pages/RecipePage";
@@ -10,6 +11,7 @@ import OTPpage from "./pages/OTPpage";
 const App = () => {
   return (
     <>
+      <Toaster richColors position="top-right" />
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />

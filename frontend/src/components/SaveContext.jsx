@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import recipes from "../recipeData";
 import { useUser } from "./UserContext";
+import { toast } from "sonner";
 
 const SaveContext = createContext();
 
@@ -12,6 +13,11 @@ export const SaveProvider = ({ children }) => {
 
   const handleSaveRecipe = async (recipe) => {
     try {
+      if (!navigator.onLine) {
+        toast.error("You're offline. Check your internet connection.");
+        return;
+      }
+
       setVaing(true);
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_API_URL}/api/recipe/save`,
@@ -24,8 +30,15 @@ export const SaveProvider = ({ children }) => {
         }
       );
       console.log(res.data.message);
+      toast.success(res.data.message || "Recipe saved successfully!");
     } catch (error) {
-      console.log("Save Error", error.res?.data || error.message);
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Something went wrong. Please try again.";
+
+      console.log("Save Error:", message);
+      toast.error(message);
     } finally {
       setVaing(false);
     }
@@ -33,6 +46,11 @@ export const SaveProvider = ({ children }) => {
 
   const fetchRecipe = async () => {
     try {
+      if (!navigator.onLine) {
+        toast.error("You're offline. Check your internet connection.");
+        return;
+      }
+
       const res = await axios.get(
         `${import.meta.env.VITE_BASE_API_URL}/api/recipe/recipes`,
         {
@@ -44,7 +62,13 @@ export const SaveProvider = ({ children }) => {
       );
       setSavedRecipes(res.data.savedRecipe || []);
     } catch (error) {
-      console.log("Save Error", error.res?.data || error.message);
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Something went wrong. Please try again.";
+
+      console.log("Error Fetching Recipe:", message);
+      toast.error(message);
       setSavedRecipes([]);
     }
   };
