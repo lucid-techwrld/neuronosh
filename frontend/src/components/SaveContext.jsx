@@ -20,7 +20,7 @@ export const SaveProvider = ({ children }) => {
 
       setVaing(true);
       const res = await axios.post(
-        `${import.meta.env.VITE_BASE_API_URL}/api/recipe/save`,
+        `/api/recipe/save`,
         { recipe },
         {
           headers: {
@@ -51,15 +51,12 @@ export const SaveProvider = ({ children }) => {
         return;
       }
 
-      const res = await axios.get(
-        `${import.meta.env.VITE_BASE_API_URL}/api/recipe/recipes`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`/api/recipe/recipes`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
       setSavedRecipes(res.data.savedRecipe || []);
     } catch (error) {
       const message =

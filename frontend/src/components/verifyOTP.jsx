@@ -9,10 +9,7 @@ const verifyOTP = async (otp, email) => {
       return;
     }
 
-    const res = await axios.post(
-      `${import.meta.env.VITE_BASE_API_URL}/api/auth/verify-otp`,
-      { otp, email }
-    );
+    const res = await axios.post(`/api/auth/verify-otp`, { otp, email });
 
     console.log(res.data);
     toast.success("OTP verified successfully!");

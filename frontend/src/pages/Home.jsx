@@ -51,7 +51,7 @@ const Home = () => {
   };
 
   return (
-    <div className="relative h-screen w-full">
+    <div className="relative min-h-screen w-full mb-7">
       {/* Background Image */}
       <img
         src={bg}
@@ -60,10 +60,10 @@ const Home = () => {
       />
 
       {/* Foreground Content */}
-      <div className="absolute inset-0 flex flex-col items-center z-10 mt-5 lg:mt-10 md:mt-10 bg-white/60 backdrop-blur-sm px-3">
+      <div className="absolute inset-0 flex flex-col items-center z-10 mt-5 lg:mt-10 md:mt-10 bg-white/60 backdrop-blur-sm px-3 pb-16">
         <div className="w-full lg:w-[60%] md:w-[60%] flex flex-col items-center">
-          <p className="text-center text-xl font-myFont">
-            <span className="font-bold text-2xl text-orange-400">
+          <p className="text-center text-xl font-myFont line lg:leading-9">
+            <span className="font-bold text-xl lg:text-3xl md:text-2xl text-orange-400">
               NeuroNosh
             </span>{" "}
             is your intelligent kitchen companion that turns your leftover
@@ -114,7 +114,9 @@ const Home = () => {
 
         {/* Recommended Recipes */}
         <div className="mt-20 flex flex-col w-full justify-start lg:px-10 md:px-7 md:w-[80%] lg:w-[80%] ">
-          <h2 className="font-bold text-xl">Recommended Recipes</h2>
+          <h2 className="font-bold text-xl lg:text-3xl md:text-2xl">
+            Recommended Recipes
+          </h2>
           <Recommend recommend={recommend} />
         </div>
       </div>

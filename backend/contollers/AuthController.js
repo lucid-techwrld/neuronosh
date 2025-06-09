@@ -182,7 +182,7 @@ const googleAuth = async (req, res) => {
     setAuthCookie(res, token);
     await sendMail(req.user.email);
 
-    res.redirect(process.env.FRONT_END);
+    res.redirect("/");
   } catch (error) {
     console.log(error);
     res.status(500).json({

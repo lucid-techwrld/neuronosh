@@ -10,15 +10,12 @@ export const UserProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BASE_API_URL}/api/auth/user`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`/api/auth/user`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
       setUser(res.data.user);
       setIsLoggedIn(true);
     } catch (error) {
@@ -34,12 +31,13 @@ export const UserProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       if (!navigator.onLine) {
+        console.log(navigator);
         toast.error("You're offline. Check your internet connection.");
         return;
       }
 
       const res = await axios.post(
-        `${import.meta.env.VITE_BASE_API_URL}/api/auth/email`,
+        `/api/auth/email`,
         { email, password },
         {
           headers: { "Content-Type": "application/json" },
@@ -71,9 +69,7 @@ export const UserProvider = ({ children }) => {
         return;
       }
 
-      const res = await axios.get(
-        `${import.meta.env.VITE_BASE_API_URL}/api/auth/logout`
-      );
+      const res = await axios.get(`/api/auth/logout`);
       if (res.data?.success) {
         setUser(null);
         setIsLoggedIn(false);

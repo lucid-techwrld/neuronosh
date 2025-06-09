@@ -17,7 +17,7 @@ export const RecipeProvider = ({ children }) => {
         return;
       }
       const res = await axios.post(
-        `${import.meta.env.VITE_BASE_API_URL}/api/recipe/generate-recipe`,
+        `/api/recipe/generate-recipe`,
         { ingredients },
         {
           headers: {
@@ -46,16 +46,13 @@ export const RecipeProvider = ({ children }) => {
         return;
       }
 
-      const res = await axios.delete(
-        `${import.meta.env.VITE_BASE_API_URL}/api/recipe/delete`,
-        {
-          data: { name },
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const res = await axios.delete(`/api/recipe/delete`, {
+        data: { name },
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
       let updatedRecipe;
       if (res.data.success) {
         toast.success(res.data.message || "Recipe deleted successfully!");
