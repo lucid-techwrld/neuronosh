@@ -14,7 +14,7 @@ const Recommend = ({ recommend }) => {
           <div className="bg-white rounded-md w-full h-full pb-4 flex flex-col">
             <div className="w-full h-52 overflow-hidden rounded-t-md">
               <img
-                src={recipeImg}
+                src={item.img}
                 alt="recipe-image"
                 className="w-full h-full object-cover"
               />

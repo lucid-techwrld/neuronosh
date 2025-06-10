@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSaves } from "../components/SaveContext";
 import { useRecipe } from "../components/RecipeContext";
 import image from "../assets/image.png";
+import RecipeChefCard from "../components/RecipeChefCard";
 
 const RecipePage = () => {
   const { name } = useParams();
@@ -17,27 +18,29 @@ const RecipePage = () => {
     <div className="flex flex-col w-full h-full">
       {matchingRecipe ? (
         <>
-          <div className="flex-grow w-full px-5 lg:px-20 space-y-5">
-            <h1 className="text-xl font-bold mb-10 text-orange-400">
+          <div className="flex-grow w-full px-5 lg:px-20 space-y-5 text-md lg:text-2xl md:text-xl">
+            <h1 className="font-bold mb-10 text-orange-400">
               Generated Recipe
             </h1>
-
-            <h2 className="text-md font-bold">
-              {matchingRecipe.name?.toUpperCase()}
-            </h2>
+            <RecipeChefCard
+              name={matchingRecipe.name}
+              desc={matchingRecipe.description}
+            />
 
             <p>
-              <strong>Description:</strong> <br />
+              <strong className="text-orange-400">Description:</strong> <br />
               {matchingRecipe.description}
             </p>
 
             <p>
-              <strong>Instructions:</strong> <br />
+              <strong className="text-orange-400">Instructions:</strong> <br />
               {matchingRecipe.instructions}
             </p>
 
             <div>
-              <h3 className="font-semibold mb-2">Ingredients:</h3>
+              <h3 className="font-semibold mb-2 text-orange-400">
+                Ingredients:
+              </h3>
               <ul className="list-disc list-inside space-y-1">
                 {matchingRecipe.ingredients?.map((ingredient, index) => (
                   <li key={index}>{ingredient}</li>
