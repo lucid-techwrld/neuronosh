@@ -8,9 +8,7 @@ import chefFive from "../assets/chef5.jpg";
 const RecipeChefCard = ({ name, desc }) => {
   const [showChef, setShowChef] = useState();
 
-  const decsription = desc.split("");
-  const text = decsription.slice(0, 60);
-  const shortenDesc = text.join("");
+  const shortenDesc = desc.split("").slice(0, 60).join("");
 
   const chefs = [chefOne, chefTwo, chefThree, chefFour, chefFive];
 

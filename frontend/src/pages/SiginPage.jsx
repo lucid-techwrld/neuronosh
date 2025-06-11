@@ -43,9 +43,7 @@ const SiginPage = () => {
   const handleGoogleLogin = async (e) => {
     e.preventDefault();
     setGooleLoad(true);
-    window.location.href = `${
-      import.meta.env.VITE_BASE_API_URL
-    }/api/auth/google`;
+    window.location.href = `/api/auth/google`;
   };
 
   return (
